@@ -1,8 +1,9 @@
 name: Release Project
 
 on:
-  release:
-    types: [ released ]
+  push:
+    branches:
+      - 'releases/**'
 
 jobs:
   publish:
