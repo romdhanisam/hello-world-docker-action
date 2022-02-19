@@ -16,6 +16,11 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Extract tag name
+        id: extract_tagname
+        shell: bash
+        # Extra the tagname form the git reference, value of GITHUB_REF will be something like refs/tags/<tag_name>.
+        run: echo "##[set-output name=tagname;]$(echo ${GITHUB_REF##*/})"
       - name: Set version with Maven
         run: mvn -B versions:set -DprocessAllModules=true -DnewVersion=${{ steps.extract_tagname.outputs.tagname }}
         env:
