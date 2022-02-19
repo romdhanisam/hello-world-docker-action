@@ -19,3 +19,25 @@ The time we greeted you.
 uses: actions/hello-world-docker-action@v1
 with:
   who-to-greet: 'Mona the Octocat'# hello-world-docker-action
+
+
+# Sign usage
+
+## list of keys
+> gpg --list-secret-keys --keyid-format=long
+-------------------------
+## generate key
+
+> gpg --full-generate-key
+-------------------------
+## delete key
+> gpg --delete-secret-key EB2A1CE10DE3E599**
+-------------------------
+## Set default secret
+> git config --global user.signingkey CD0C7DB15E9DD359**
+-------------------------
+> gpg -s --default-key CD0C7DB15E9DD359** input > output
+> 
+> gpg -d < input.gpg | head -1
+-------------------------
+> gpg -s --default-key CD0C7DB15E9DD35**
