@@ -42,7 +42,7 @@ jobs:
               "@context":"https://schema.org/extensions",
               "summary":"Pipeline sucess!",
               "themeColor":"3BD16F",
-              "title":"${{ github.event.release.tag_name }} is published!",
+              "title":"${{ github.event.release.name }} is published!",
               "sections":[
                 {
                   "facts":[
@@ -59,6 +59,10 @@ jobs:
                       "value":"${{ github.sha }}"
                     },
                     {
+                      "name":"Prerelease tagname:",
+                      "value":"${{ github.event.release.prerelease.tag_name }}"
+                    },
+                    {
                       "name":"Release Name:",
                       "value":"${{ github.event.release.name }}"
                     },
@@ -69,6 +73,7 @@ jobs:
                   ]
                 }
               ],
+              "markdown": true,
               "potentialAction":[
                 {
                   "@type":"OpenUri",
@@ -82,11 +87,11 @@ jobs:
                 },
                 {
                   "@type":"OpenUri",
-                  "name":"Compare",
+                  "name":"Compare change",
                   "targets":[
                     {
                       "os":"default",
-                      "uri":"${{ github.github.event.release.html_url }}"
+                      "uri":"${{ github.server_url }}/${{ github.repository }}/compare/${{ github.event.release.prerelease.tag_name }}...${{ steps.extract_tagname.outputs.tagname }}"
                     }
                   ]
                 }
