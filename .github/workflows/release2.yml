@@ -42,7 +42,7 @@ jobs:
               "@context":"https://schema.org/extensions",
               "summary":"Pipeline sucess!",
               "themeColor":"3BD16F",
-              "title":"${{ github.event.release.tag_name }} is published!",
+              "title":"${{ github.event.release.name }} is published!",
               "sections":[
                 {
                   "facts":[
@@ -86,7 +86,7 @@ jobs:
                   "targets":[
                     {
                       "os":"default",
-                      "uri":"${{ github.github.event.release.html_url }}"
+                      "uri":"${{ github.event.release.html_url }}"
                     }
                   ]
                 }
