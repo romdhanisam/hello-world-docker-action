@@ -1,0 +1,59 @@
+name: Release Microsoft Teams Notification
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Microsoft Teams Notification
+        uses: skitionek/notify-microsoft-teams@master
+        if: always()
+        with:
+          webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
+          raw: >-
+            {
+              "@type":"MessageCard",
+              "@context":"https://schema.org/extensions",
+              "summary":"Pipeline success!",
+              "themeColor":"3BD16F",
+              "title":"${{ github.event.release.tag_name }} is published!",
+              "sections":[
+                {
+                  "facts":[
+                    {
+                      "name":"Repository:",
+                      "value":"${{ github.repository }}"
+                    },
+                    {
+                      "name":"Author:",
+                      "value":"${{ github.actor }}"
+                    },
+                    {
+                      "name":"Release Name:",
+                      "value":"${{ github.event.release.name }}"
+                    },
+                    {
+                      "name":"Release Description :",
+                      "value":"${{ github.event.release.body }}"
+                    }
+                  ]
+                }
+              ],
+              "markdown": true,
+              "potentialAction":[
+                {
+                  "@type":"OpenUri",
+                  "name":"View Release on GitHub",
+                  "targets":[
+                    {
+                      "os":"default",
+                      "uri":"${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ steps.extract_tagname.outputs.tagname }}"
+                    }
+                  ]
+                }
+              ]
+            }

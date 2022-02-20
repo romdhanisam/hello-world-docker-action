@@ -20,6 +20,12 @@ uses: actions/hello-world-docker-action@v1
 with:
   who-to-greet: 'Mona the Octocat'# hello-world-docker-action
 
+# Github release usage
+
+## add tag
+> > git tag -a -m "Prepare release" v17
+>
+> > git push --follow-tags
 
 # Sign usage
 
@@ -36,8 +42,8 @@ with:
 ## Set default secret
 > git config --global user.signingkey CD0C7DB15E9DD359**
 -------------------------
-> gpg -s --default-key CD0C7DB15E9DD359** input > output
+> > gpg -s --default-key CD0C7DB15E9DD359** input > output
 > 
-> gpg -d < input.gpg | head -1
+> > gpg -d < input.gpg | head -1
 -------------------------
 > gpg -s --default-key CD0C7DB15E9DD35**
