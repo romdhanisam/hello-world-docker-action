@@ -1,35 +1,10 @@
-name: Release Project
-
-on:
-  release:
-    types: [released]
+on: [push]
 
 jobs:
-  publish:
+  teams_job:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+    name: Job Microsoft Teams Notification
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-      - name: Extract tag name
-        id: extract_tagname
-        shell: bash
-        # Extra the tagname form the git reference, value of GITHUB_REF will be something like refs/tags/<tag_name>.
-        run: echo "##[set-output name=tagname;]$(echo ${GITHUB_REF##*/})"
-      - name: Set version with Maven
-        run: mvn -B versions:set -DprocessAllModules=true -DnewVersion=${{ steps.extract_tagname.outputs.tagname }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish package
-        id: publish_package
-        run: mvn --batch-mode deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@master
       - name: Microsoft Teams Notification
         uses: skitionek/notify-microsoft-teams@master
@@ -40,7 +15,7 @@ jobs:
             {
               "@type":"MessageCard",
               "@context":"https://schema.org/extensions",
-              "summary":"Pipeline sucess!",
+              "summary":"Pipeline success!",
               "themeColor":"3BD16F",
               "title":"${{ github.repository }} pipeline success",
               "sections":[
@@ -72,11 +47,11 @@ jobs:
               "potentialAction":[
                 {
                   "@type":"OpenUri",
-                  "name":"View Release on GitHub",
+                  "name":"View on GitHub",
                   "targets":[
                     {
                       "os":"default",
-                      "uri":"${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ steps.extract_tagname.outputs.tagname }}"
+                      "uri":"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                     }
                   ]
                 }
